@@ -4,6 +4,7 @@ set -ex
 source config.ini
 
 chmod -R +x ./
+mkdir -p logs
 # ip:tools/area
 if $area; then
 	cd /app/tools/area
