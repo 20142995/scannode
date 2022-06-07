@@ -7,7 +7,6 @@ import time
 import base64
 import hashlib
 import requests
-
 from celery import Celery
 
 app = Celery('icpbeian', broker=os.environ['BROKER'], backend=os.environ['BACKEND'], )
