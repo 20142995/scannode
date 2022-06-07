@@ -9,9 +9,10 @@ import threading
 import json
 
 FILEPATH = os.path.dirname(os.path.abspath(__file__))
-global xray_over,rad_over
+global xray_over,rad_over,xray_start
 xray_over = False
 rad_over = False
+xray_start = False
 
 
 
@@ -21,13 +22,15 @@ app.conf.update(CELERY_TASK_SERIALIZER='json', CELERY_RESULT_SERIALIZER='json', 
                 'json'], CELERY_TIMEZONE='Asia/Shanghai', CELERY_ENABLE_UTC=False,)
 
 def xray_main(out_file_name):
-    global xray_over,rad_over
+    global xray_over,rad_over,xray_start
     print('[+] start xray')
     xraypath = os.path.join(FILEPATH,'tool','xray_linux_amd64')
     xraycmd = [xraypath, "webscan", "--listen", "127.0.0.1:57777", "--json-output", out_file_name]
-    xray = subprocess.Popen(xraycmd,stdout=subprocess.PIPE, stdin=subprocess.PIPE,shell=True)
+    xray = subprocess.Popen(xraycmd,stdout=subprocess.PIPE, stdin=subprocess.PIPE,shell=False)
     for i in iter(xray.stdout.readline,'b'):
         print(i)
+        if b'starting mitm server at 127.0.0.1' in i:
+            xray_start = True
         if b'All pending requests have been scanned' in i and rad_over:
             xray.kill()
             break
@@ -43,6 +46,9 @@ def run(url):
     xray = threading.Thread(target=xray_main,args=(out_file_name,))
     xray.daemon = True
     xray.start()
+    while not xray_start:
+        break
+    print('[+] xray running')
     radcmd = [os.path.join(FILEPATH,'tool','rad_linux_amd64'), "-t", url, "--http-proxy", "127.0.0.1:57777"]
     print('[+] start rad')
     rad = subprocess.run(radcmd)

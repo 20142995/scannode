@@ -21,7 +21,7 @@ def run(keyword):
     headers = {"Authorization": "token {}".format(os.environ.get('GITHUB_TOKEN',''))}
     try:
         rj = requests.get("https://api.github.com/repos/{}".format(keyword), headers=headers, verify=False).json()
-        result.append({'html_url':rj['html_url'],'description':rj['description'],'updated_at':time.strftime("%Y-%m-%d %H:%M:%S",time.strptime(rj['updated_at'], "%Y-%m-%dT%H:%M:%SZ"))})
+        result.append({'html_url':rj['html_url'],'description':rj['description'],'updated_at':time.strftime("%Y-%m-%d %H:%M:%S",time.strptime(rj['pushed_at'], "%Y-%m-%dT%H:%M:%SZ"))})
         time.sleep(2)
     except:
         pass
