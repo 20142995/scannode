@@ -37,8 +37,9 @@ def xray_webhook():
             pass
     elif data_type == "web_statistic":
         return 'ok'
-    else:
-        return 'other'
+
+    return 'other'
+    
     
 def flask_main():
     app.run(host='127.0.0.1',port=5000)
