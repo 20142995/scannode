@@ -37,7 +37,6 @@ def xray_webhook():
             pass
     return 'ok'
     
-    
 def flask_main():
     app.run(host='127.0.0.1',port=5000)
 
