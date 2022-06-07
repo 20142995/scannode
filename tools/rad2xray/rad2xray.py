@@ -47,7 +47,7 @@ def run(url):
     xray.daemon = True
     xray.start()
     while not xray_start:
-        break
+        pass
     print('[+] xray running')
     radcmd = [os.path.join(FILEPATH,'tool','rad_linux_amd64'), "-t", url, "--http-proxy", "127.0.0.1:57777"]
     print('[+] start rad')
@@ -55,7 +55,7 @@ def run(url):
     rad_over = True
     print('[+] end rad')
     while not xray_over:
-        break
+        pass
     if os.path.exists(out_file_name):
         for line in open(out_file_name,'r',encoding='utf8').readlines():
             try:
