@@ -35,12 +35,10 @@ def run(url,xray=False):
     os.system(' '.join(radcmd))
     if os.path.exists(out_file_name):
         for line in open(out_file_name,'r',encoding='utf8').readlines():
-            print(line)
             try:
                 rj = json.loads(line.strip().rstrip(','))
-                result.append({'url':rj['URL'],'method':rj['Method'],'header':rj['Header'],'b64_body':rj['b64_body']})
+                result.append({'url':rj['URL'],'method':rj['Method'],'header':rj['Header'],'b64_body':rj.get('b64_body','')})
             except Exception as e:
-                print(e)
                 pass
         try:
             os.remove(out_file_name)

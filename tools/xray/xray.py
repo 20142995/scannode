@@ -28,18 +28,14 @@ def xray_webhook():
     except:
         return 'error'
     if data_type == "web_vuln":
-        info = {'url':vuln["target"]["url"], 'vuln_name':vuln["plugin"],'create_time':str(datetime.datetime.fromtimestamp(vuln["create_time"] / 1000))}
+        info = {'addr':vuln["detail"]["addr"], 'plugin':vuln["plugin"],'payload':vuln["detail"]["payload"]}
         try:
             if os.environ.get('DINGTALK_TOKEN',''):
                 send_text(str(info),token=os.environ['DINGTALK_TOKEN'],secret=os.environ.get('DINGTALK_SECRET',''))
             print(info)
-
         except Exception as e:
             pass
-    elif data_type == "web_statistic":
-        return 'ok'
-
-    return 'other'
+    return 'ok'
     
     
 def flask_main():
