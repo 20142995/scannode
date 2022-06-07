@@ -16,7 +16,7 @@ RUN pip3 install --upgrade pip -i  https://pypi.tuna.tsinghua.edu.cn/simple \
   && pip3 install cmake -i  https://pypi.tuna.tsinghua.edu.cn/simple
 RUN pip3 install -r requirements.txt  -i  https://pypi.tuna.tsinghua.edu.cn/simple 
 
-RUN cp tools/rad2xray/ca.crt  /usr/local/share/ca-certificates/xray.crt && update-ca-certificates
+RUN cp tools/xray/ca.crt  /usr/local/share/ca-certificates/xray.crt && update-ca-certificates
 ADD docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod +x /docker-entrypoint.sh
 
