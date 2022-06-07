@@ -17,7 +17,7 @@ class crack(threading.Thread):
         self.curr_time = curr_time
     def run(self):
         time.sleep(5)
-        os.system("date "+self.curr_time)
+        os.system("date -s "+self.curr_time)
 
 @app.route('/webhook', methods=['POST'])
 def xray_webhook():
@@ -51,7 +51,7 @@ def main():
     xraypath = os.path.join(FILEPATH,'xray_linux_amd64')
     xraycmd = [xraypath, "webscan", "--listen", "127.0.0.1:7777", "--html-output", time.strftime("%Y-%m-%d-%H-%M-%S")+'.html',"--webhook-output","http://127.0.0.1:5000/webhook"]
     curr_time=time.strftime('%Y-%m-%d', time.localtime(time.time()))
-    os.system("date 2022-02-09")
+    os.system("date -s 2022-02-09")
     thread1 = crack(curr_time)
     thread1.start()
     os.system(" ".join(xraycmd))
