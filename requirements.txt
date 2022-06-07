@@ -19,4 +19,5 @@ scikit-build
 cmake
 opencv-python
 dnspython==2.1.0
+flask
 
