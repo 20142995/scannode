@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-
 import os
 from celery import Celery
 import masscan
@@ -11,7 +10,6 @@ app = Celery(
     'portscan', broker=os.environ['BROKER'], backend=os.environ['BACKEND'], )
 app.conf.update(CELERY_TASK_SERIALIZER='json', CELERY_RESULT_SERIALIZER='json', CELERY_ACCEPT_CONTENT=[
                 'json'], CELERY_TIMEZONE='Asia/Shanghai', CELERY_ENABLE_UTC=False,)
-
 
 @app.task
 def run(ips):
