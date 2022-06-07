@@ -52,7 +52,7 @@ if $bakfile; then
 fi
 
 # urlpath:rad
-if $rad2xray; then
+if $rad; then
 	cd /app/tools/rad
 	nohup celery -A rad worker -l info -Q rad -c 1 -n rad_$RANDOM --logfile=/app/logs/rad_celery.log >/dev/null 2>&1 &
 fi
@@ -70,12 +70,11 @@ if $icpbeian; then
         nohup celery -A icpbeian worker -l info -Q icpbeian -c 1 -n icpbeian_$RANDOM --logfile=/app/logs/icpbeian_celery.log >/dev/null 2>&1 &
 fi
 # tools:githubrepos
-if $icpbeian; then
+if $githubrepos; then
         cd /app/tools/githubrepos
         nohup celery -A githubrepos worker -l info -Q githubrepos -c 1 -n githubrepos_$RANDOM --logfile=/app/logs/githubrepos_celery.log >/dev/null 2>&1 &
 fi
 
-fi
 # vuln:xray
 if $xray; then
         cd /app/tools/xray
