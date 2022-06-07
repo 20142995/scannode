@@ -51,17 +51,18 @@ if $bakfile; then
 	nohup celery -A bakfile worker -l info -Q bakfile -n bakfile_$RANDOM --logfile=/app/logs/bakfile_celery.log >/dev/null 2>&1 &
 fi
 
+# urlpath:rad
+if $rad2xray; then
+	cd /app/tools/rad
+	nohup celery -A rad worker -l info -Q rad -c 1 -n rad_$RANDOM --logfile=/app/logs/rad_celery.log >/dev/null 2>&1 &
+fi
+
 # vuln:tools/nuclei
 if $nuclei; then
 	cd /app/tools/nuclei
 	nohup celery -A nuclei worker -l info -Q nuclei -c 1 -n nuclei_$RANDOM --logfile=/app/logs/nuclei_celery.log >/dev/null 2>&1 &
 fi
 
-# vuln:rad2xray
-if $rad2xray; then
-	cd /app/tools/rad2xray
-	nohup celery -A rad2xray worker -l info -Q rad2xray -c 1 -n rad2xray_$RANDOM --logfile=/app/logs/rad2xray_celery.log >/dev/null 2>&1 &
-fi
 
 # tools:icpbeian
 if $icpbeian; then
@@ -72,6 +73,13 @@ fi
 if $icpbeian; then
         cd /app/tools/githubrepos
         nohup celery -A githubrepos worker -l info -Q githubrepos -c 1 -n githubrepos_$RANDOM --logfile=/app/logs/githubrepos_celery.log >/dev/null 2>&1 &
+fi
+
+fi
+# vuln:xray
+if $xray; then
+        cd /app/tools/xray
+        nohup python3 xray.py >/app/logs/xray.log 2>&1 &
 fi
 
 /bin/bash

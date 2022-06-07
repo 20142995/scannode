@@ -14,8 +14,8 @@ app.conf.update(CELERY_TASK_SERIALIZER = 'json',CELERY_RESULT_SERIALIZER = 'json
 def run(url):
     result = []
     FILEPATH = os.path.dirname(os.path.abspath(__file__))
-    out_file_name = os.path.join(FILEPATH,'tool','{}.json'.format(time.time()))
-    exe = os.path.join(FILEPATH,'tool', 'nuclei')
+    out_file_name = os.path.join(FILEPATH,'{}.json'.format(time.time()))
+    exe = os.path.join(FILEPATH, 'nuclei')
     os.system("{} -silent -json -u {} -o {}".format(exe, url,out_file_name))
     if os.path.exists(out_file_name):
          with open(out_file_name, 'r') as f:
