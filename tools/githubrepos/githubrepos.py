@@ -18,11 +18,14 @@ app.conf.update(CELERY_TASK_SERIALIZER='json', CELERY_RESULT_SERIALIZER='json', 
 @app.task
 def run(keywords):
     result = []
-    headers = {"Authorization": "token {}".format(os.environ.get('GITHUB_TOKEN',''))}
+    headers = {"Authorization": "token {}".format(
+        os.environ.get('GITHUB_TOKEN', ''))}
     for keyword in keywords:
         try:
-            rj = requests.get("https://api.github.com/repos/{}".format(keyword), headers=headers, verify=False).json()
-            result.append({'html_url':rj['html_url'],'description':rj['description'],'updated_at':time.strftime("%Y-%m-%d %H:%M:%S",time.strptime(rj['pushed_at'], "%Y-%m-%dT%H:%M:%SZ"))})
+            rj = requests.get("https://api.github.com/repos/{}".format(keyword),
+                              headers=headers, verify=False).json()
+            result.append({'html_url': rj['html_url'], 'description': rj['description'], 'updated_at': time.strftime(
+                "%Y-%m-%d %H:%M:%S", time.strptime(rj['pushed_at'], "%Y-%m-%dT%H:%M:%SZ"))})
             time.sleep(1)
         except:
             time.sleep(2)

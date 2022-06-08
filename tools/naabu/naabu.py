@@ -13,13 +13,16 @@ app = Celery(
 app.conf.update(CELERY_TASK_SERIALIZER='json', CELERY_RESULT_SERIALIZER='json', CELERY_ACCEPT_CONTENT=[
                 'json'], CELERY_TIMEZONE='Asia/Shanghai', CELERY_ENABLE_UTC=False,)
 
+
 @app.task
-def run(ip,wordlist = 'top100'):
+def run(ip, wordlist='all'):
     result = []
     FILEPATH = os.path.dirname(os.path.abspath(__file__))
-    nmap_file = os.path.join(FILEPATH,'naabu_result_{}.xml'.format(time.time()))
+    nmap_file = os.path.join(
+        FILEPATH, 'naabu_result_{}.xml'.format(time.time()))
     naabu_nmap_cmd = 'nmap --version-all -n -Pn -T4 -oX {}'.format(nmap_file)
-    out_file_name = os.path.join(FILEPATH,'{}_{}.json'.format(ip, time.time()))
+    out_file_name = os.path.join(
+        FILEPATH, '{}_{}.json'.format(ip, time.time()))
 
     portfile = 'portfile_top100.txt'
     if(wordlist == 'top100'):
@@ -29,10 +32,11 @@ def run(ip,wordlist = 'top100'):
     elif(wordlist == 'all'):
         portfile = 'portfile_all.txt'
 
-    command = "cd {} && ./naabu -host {} -ports-file {} -json -o {} -nmap-cli {}".format(ip,portfile,out_file_name,naabu_nmap_cmd)
+    command = "cd {} && ./naabu -host {} -ports-file {} -json -o {} -nmap-cli {}".format(
+        ip, portfile, out_file_name, naabu_nmap_cmd)
     os.system(command)
     if os.path.exists(out_file_name):
-        with open(out_file_name,'r',encoding='utf8') as f:
+        with open(out_file_name, 'r', encoding='utf8') as f:
             for line in f.readlines():
                 dic = {}
                 try:
@@ -45,12 +49,14 @@ def run(ip,wordlist = 'top100'):
                 result.append(dic)
     if os.path.exists(nmap_file):
         try:
-            tree = parse(nmap_file);
+            tree = parse(nmap_file)
             root = tree.documentElement
             port_length = len(root.getElementsByTagName('ports')[0].childNodes)
             for i in range(0, port_length, 2):
-                server = root.getElementsByTagName('ports')[0].childNodes[i].childNodes[1].getAttribute("name")
-                port = int(root.getElementsByTagName('ports')[0].childNodes[i].getAttribute("portid"))
+                server = root.getElementsByTagName(
+                    'ports')[0].childNodes[i].childNodes[1].getAttribute("name")
+                port = int(root.getElementsByTagName('ports')[
+                           0].childNodes[i].getAttribute("portid"))
                 # 加入字典中
                 for res in result:
                     if (port == res['port']):

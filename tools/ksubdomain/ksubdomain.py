@@ -11,6 +11,7 @@ app = Celery(
 app.conf.update(CELERY_TASK_SERIALIZER='json', CELERY_RESULT_SERIALIZER='json', CELERY_ACCEPT_CONTENT=[
                 'json'], CELERY_TIMEZONE='Asia/Shanghai', CELERY_ENABLE_UTC=False,)
 
+
 @app.task
 def run(domain):
     result = []
@@ -22,7 +23,7 @@ def run(domain):
         with open(out_file_name, 'r') as f:
             for line in f.readlines():
                 if line.strip():
-                    result.append({'domain':line.strip()})
+                    result.append({'domain': line.strip()})
     try:
         os.remove(out_file_name)
     except Exception as e:

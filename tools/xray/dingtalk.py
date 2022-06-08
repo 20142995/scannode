@@ -46,5 +46,5 @@ def send_text(text, token, secret="", atMobiles=[], isAtAll=False):
     else:
         url = "https://oapi.dingtalk.com/robot/send?access_token={}".format(
             token)
-    r = requests.post(url, json=data, headers=headers,verify=False)
+    r = requests.post(url, json=data, headers=headers, verify=False)
     return r.json()

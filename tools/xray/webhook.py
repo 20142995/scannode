@@ -17,13 +17,10 @@ def xray_webhook():
     except:
         return 'error'
     if data_type == "web_vuln":
-        info = {'addr': vuln["detail"]["addr"],
-                'plugin': vuln["plugin"], 'payload': vuln["detail"]["payload"]}
-        print(info)
         try:
             if os.environ.get('DINGTALK_TOKEN', ''):
-                send_text(str(info), token=os.environ['DINGTALK_TOKEN'], secret=os.environ.get(
-                    'DINGTALK_SECRET', ''))
+                send_text("消息: \n漏洞地址: {}\n漏洞名称: {}\nPayload: {}".format(
+                    vuln["detail"]["addr"], vuln["plugin"], vuln["detail"]["payload"]), token=os.environ['DINGTALK_TOKEN'], secret=os.environ.get('DINGTALK_SECRET', ''))
         except Exception as e:
             pass
     return 'ok'
