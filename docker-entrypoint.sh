@@ -78,6 +78,8 @@ fi
 # vuln:xray
 if $xray; then
         cd /app/tools/xray
+		export FLASK_APP=webhook.py
+		nohup flask run >/app/logs/webhook.log 2>&1 &
         nohup python3 xray.py >/app/logs/xray.log 2>&1 &
 fi
 
