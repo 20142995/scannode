@@ -17,6 +17,12 @@ if $portscan; then
 	nohup celery -A portscan worker -l info -c 1 -Q portscan -n portscan_$RANDOM --logfile=/app/logs/portscan_celery.log >/dev/null 2>&1 &
 fi
 
+# port:tools/naabu
+if $portscan; then
+	cd /app/tools/naabu
+	nohup celery -A naabu worker -l info -c 1 -Q naabu -n naabu_$RANDOM --logfile=/app/logs/naabu_celery.log >/dev/null 2>&1 &
+fi
+
 # domain:tools/subfinder
 if $subfinder; then
 	cd /app/tools/subfinder
