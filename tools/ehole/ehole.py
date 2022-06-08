@@ -17,6 +17,7 @@ def run(urls):
     FILEPATH = os.path.dirname(os.path.abspath(__file__))
     in_file_name = os.path.join(FILEPATH,'{}.txt'.format(time.time()))
     with open(in_file_name,'w',encoding='utf8') as f:
+        f.write('\n')
         for url in urls:
             url = url if '://' in url else 'http://'+url
             f.write('{}\n'.format(url))
