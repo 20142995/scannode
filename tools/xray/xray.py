@@ -4,7 +4,6 @@
 import os
 import time
 import threading
-import datetime
 from dingtalk import send_text
 from flask import Flask, request
 
@@ -32,7 +31,6 @@ def xray_webhook():
         try:
             if os.environ.get('DINGTALK_TOKEN',''):
                 send_text(str(info),token=os.environ['DINGTALK_TOKEN'],secret=os.environ.get('DINGTALK_SECRET',''))
-            print(info)
         except Exception as e:
             pass
     return 'ok'

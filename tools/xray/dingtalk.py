@@ -7,6 +7,7 @@ import hashlib
 import base64
 import urllib.parse
 import requests
+requests.packages.urllib3.disable_warnings()
 
 
 def _sign(secret):
@@ -45,5 +46,5 @@ def send_text(text, token, secret="", atMobiles=[], isAtAll=False):
     else:
         url = "https://oapi.dingtalk.com/robot/send?access_token={}".format(
             token)
-    r = requests.post(url, json=data, headers=headers)
+    r = requests.post(url, json=data, headers=headers,verify=False)
     return r.json()
