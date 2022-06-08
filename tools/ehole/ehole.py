@@ -22,7 +22,7 @@ def run(urls):
             url = url if '://' in url else 'http://'+url
             f.write('{}\n'.format(url))
     out_file_name = os.path.join(FILEPATH,'{}.json'.format(time.time()))
-    os.system("cd {} && ./Ehole3.0-linux -f {} -json {}".format(FILEPATH, in_file_name,out_file_name))
+    os.system("cd {} && ./Ehole3.0-linux -l {} -json {}".format(FILEPATH, in_file_name,out_file_name))
     if os.path.exists(out_file_name):
          with open(out_file_name, 'r') as f:
             for line in f.readlines():
